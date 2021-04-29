@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 #define VENDOR_ID       0x7856
-#define PRODUCT_ID      0x37FJ
+#define PRODUCT_ID      0x6163
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    Lyso1
 #define PRODUCT         lck75
@@ -82,9 +82,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef LOCKING_RESYNC_ENABLE
 #    undef LOCKING_RESYNC_ENABLE
 #endif
-
-
-#define OLED_FONT_H "keyboards/lck75/glcdfont.c"
 
 #define IGNORE_MOD_TAP_INTERRUPT
 #define PERMISSIVE_HOLD
