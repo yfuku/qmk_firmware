@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID 0x0004
 #define DEVICE_VER 0x0001
 #define MANUFACTURER yfuku
-#define PRODUCT      wings46
+#define PRODUCT      wings42ext
 
 /* key matrix size */
 #define MATRIX_ROWS 12

@@ -9,6 +9,13 @@ extern uint8_t is_master;
 
 bool isScrollMode;
 
+enum keymap_layers {
+  _QWERTY,
+  _LOWER,
+  _RAISE,
+  _TB,
+};
+
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
@@ -21,13 +28,6 @@ enum custom_keycodes {
   KC_MBTN2,
   KC_MBTN3,
   KC_SCRL
-};
-
-enum layer_number {
-    _QWERTY = 0,
-    _RAISE,
-    _LOWER,
-    _TB,
 };
 
 // common
@@ -90,15 +90,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // L_ = LT(_LOWER
 
   [_QWERTY] = LAYOUT_kc( \
-  //,----+----+----+----+----+----.        ,----+----+----+----+----+----.
-      ESC, Q  , W  , E  , R  , T  ,          Y  , U  , I  , O  , P  ,MINS,
-  //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-      TAB, A  ,GS_S,A_D ,G_F ,C_G ,         C_H ,G_J ,A_K ,GS_L,SCLN,ESC ,
-  //|----+----+----+----+----+----+        |----+----+----+----+----+----|
-     LEFT, Z  , X  , C  , V  , B  ,          N  , M  ,COMM,DOT ,SLSH,RGHT,
-  //`----+----+----+----+----+----/        \----+----+----+----+----+----'
-                    SCRL,S_EN,L_SPC,       R_ENT,S_JA,UP
-  //          `----+----+----+----'        `----+----+----+----'
+  //,----+----+----+----+----+----.             ,----+----+----+----+----+----.
+      ESC, Q  , W  , E  , R  , T  ,               Y  , U  , I  , O  , P  ,MINS,
+  //|----+----+----+----+----+----|             |----+----+----+----+----+----|
+      TAB, A  ,GS_S,A_D ,G_F ,C_G , MBTN1,  NO,  C_H ,G_J ,A_K ,GS_L,SCLN,ESC ,
+  //|----+----+----+----+----+----+             |----+----+----+----+----+----|
+     LEFT, Z  , X  , C  , V  , B  , MBTN2,  NO,   N  , M  ,COMM,DOT ,SLSH,RGHT,
+  //`----+----+----+----+----+----/             \----+----+----+----+----+----'
+                    DOWN,S_EN,L_SPC,            R_ENT,S_JA,UP
+  //          `----+----+----+----'             `----+----+----+----'
   ),
 
   //   \ ! & |      = + * %
@@ -109,9 +109,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.        ,----+----+----+----+----+----.
          ,BSLS,EXLM,AMPR,PIPE,XXXX,         XXXX,EQL ,PLUS,ASTR,PERC,MINS,
   //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-         ,HASH,GRV ,DQT ,QUOT,TILD,         LEFT,DOWN, UP ,RGHT,DLR ,    ,
+         ,HASH,GRV ,DQT ,QUOT,TILD,  ,   ,  LEFT,DOWN, UP ,RGHT,DLR ,    ,
   //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-         ,    ,    ,LCBR,LBRC,LPRN,         RPRN,RBRC,RCBR,AT  ,CIRC,    ,
+         ,    ,    ,LCBR,LBRC,LPRN,  ,   ,  RPRN,RBRC,RCBR,AT  ,CIRC,    ,
   //`----+----+----+----+----+----/        \----+----+----+----+----+----'
                         ,    ,BSPC         ,    ,    ,RST
   //          `----+----+----+----'        `----+----+----+----'
@@ -121,27 +121,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.        ,----+----+----+----+----+----.
          ,    ,    ,    ,    ,XXXX,         XXXX,EQL ,PLUS,ASTR,PERC,MINS,
   //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-         , 1  , 2  , 3  , 4  , 5  ,          6  , 7  , 8  , 9  , 0  ,    ,
+         , 1  , 2  , 3  , 4  , 5  ,  ,   ,   6  , 7  , 8  , 9  , 0  ,    ,
   //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,             ,    ,COMM,DOT ,SLSH,    ,
+         ,    ,    ,    ,    ,    ,  ,   ,      ,    ,COMM,DOT ,SLSH,    ,
   //`----+----+----+----+----+----/        \----+----+----+----+----+----'
                     RST ,    ,    ,        DEL ,    ,
   //          `----+----+----+----'        `----+----+----+----'
   ),
 
-  [_TB] = LAYOUT_kc( \
-  //,----+----+----+----+----+----.     ,----+----+----+----+----+----.
-         ,    ,    ,    ,    ,    ,          ,    ,    ,    ,    ,    ,
-  //|----+----+----+----+----+----|     |----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,          ,    ,    ,    ,    ,    ,
-  //|----+----+----+----+----+----|     |----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,          ,    ,    ,    ,    ,    ,
-  //`----+----+----+--+-+----+----/     \----+----+----+----+----+----'
-                  SCRL,MBTN2,MBTN1,     MBTN2,    ,
-  //          `----+----+----+----'     `----+----+----+----'
-  ),
-
 };
+
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   report_mouse_t currentReport = {};
@@ -193,13 +182,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void matrix_init_user(void) {
     init_paw3204();
-    setPinInputHigh(B6);
+    //setPinInputHigh(D3);
 }
 
+/*
 void keyboard_post_init_user() {
     debug_enable = true;
     debug_mouse = true;
 }
+*/
 
 void matrix_scan_user(void) {
     static int  cnt;
@@ -219,7 +210,7 @@ void matrix_scan_user(void) {
         }
 
         /*
-        if (readPin(B6) == 1) {
+        if (readPin(D3) == 1) {
             if (tb_layer == 0) {
                 dprint("tb layer on\n");
                 layer_on(_TB);
@@ -248,23 +239,21 @@ void matrix_scan_user(void) {
 
         if (isScrollMode) {
             if (cnt % 5 == 0) {
-                mouse_rep.v = -r_y;
-                mouse_rep.h = r_x;
+                mouse_rep.v = -r_y/10;
+                mouse_rep.h = r_x/10;
             }
+
         } else {
             mouse_rep.x = r_x;
             mouse_rep.y = r_y;
         }
 
-        /*
         if (cnt % 10 == 0) {
             dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
         }
-        */
 
         if (stat & 0x80) {
             pointing_device_set_report(mouse_rep);
         }
     }
 }
-
