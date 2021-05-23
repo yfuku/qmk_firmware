@@ -97,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+             |----+----+----+----+----+----|
      LEFT, Z  , X  , C  , V  , B  , MBTN2,  NO,   N  , M  ,COMM,DOT ,SLSH,RGHT,
   //`----+----+----+----+----+----/             \----+----+----+----+----+----'
-                    DOWN,S_EN,L_SPC,            R_ENT,S_JA,UP
+                    SCRL,S_EN,L_SPC,            R_ENT,S_JA,UP
   //          `----+----+----+----'             `----+----+----+----'
   ),
 
@@ -239,10 +239,9 @@ void matrix_scan_user(void) {
 
         if (isScrollMode) {
             if (cnt % 5 == 0) {
-                mouse_rep.v = -r_y/10;
-                mouse_rep.h = r_x/10;
+                mouse_rep.v = -r_y;
+                mouse_rep.h = r_x;
             }
-
         } else {
             mouse_rep.x = r_x;
             mouse_rep.y = r_y;
@@ -254,6 +253,34 @@ void matrix_scan_user(void) {
 
         if (stat & 0x80) {
             pointing_device_set_report(mouse_rep);
+        }
+    }
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+    case _LOWER:
+        isScrollMode = true;
+        break;
+    default:
+        isScrollMode = false;
+        break;
+    }
+  return state;
+}
+
+void encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) { /* First encoder */
+        if (clockwise) {
+            tap_code(KC_F11);
+        } else {
+            tap_code(KC_F12);
+        }
+    } else if (index == 1) { /* Second encoder */
+        if (clockwise) {
+            tap_code(KC_3);
+        } else {
+            tap_code(KC_4);
         }
     }
 }
