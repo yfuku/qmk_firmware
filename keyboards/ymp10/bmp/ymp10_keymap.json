@@ -1,21 +1,19 @@
 {
   "keyboard":"ymp10",
-  "keymap":"default",
+  "keymap":"",
   "layout":"LAYOUT",
   "layers":[
     [
       "KC_ESC",
       "KC_ENT",
-      "KC_F1",
-      "KC_F2",
-      "LSA(KC_F11)",
-      "LSA(KC_F12)",
+      "KC_BRMD",
+      "KC_BRMU",
+      "LSFT(LALT(KC__VOLDOWN))",
+      "LSFT(LALT(KC__VOLUP))",
       "KC_LEFT",
       "KC_DOWN",
       "KC_UP",
       "KC_RGHT"
     ]
-  ],
-  "author":"",
-  "notes":""
+  ]
 }

@@ -1,0 +1,19 @@
+{
+  "keyboard":"ymp10",
+  "keymap":"",
+  "layout":"LAYOUT",
+  "layers":[
+    [
+      "AD_WO_L",
+      "DELBNDS",
+      "KC_F1",
+      "KC_F2",
+      "KC_NO",
+      "KC_NO",
+      "KC_LEFT",
+      "KC_DOWN",
+      "KC_UP",
+      "BATT_LV"
+    ]
+  ]
+}
