@@ -1,0 +1,18 @@
+{"config":
+	{
+		"version":2,
+		"device_info":{"vid":"0x5946","pid":"0x0005",
+			"name":"ymp10","manufacture":"yfuku","description":"yfuku keyboard"},
+		"matrix":{"rows":3,"cols":4,"device_rows":3, "device_cols":4,
+			"debounce":1,"is_left_hand":1,"diode_direction":0,
+			"row_pins":[7, 8, 9],
+			"col_pins":[20, 19, 18, 17],
+		"layout":[3, 4, 0,
+			 5, 6, 7, 8, 0,
+			 9, 10, 11, 12]},
+		"mode":"SINGLE","startup":1,
+		"peripheral":{"max_interval":60,"min_interval":30,"slave_latency":7},
+		"central":{"max_interval":60,"min_interval":30,"slave_latency":0},
+		"led":{"pin":1, "num":12},
+		"keymap":{"locale":"US","use_ascii":0}
+}}

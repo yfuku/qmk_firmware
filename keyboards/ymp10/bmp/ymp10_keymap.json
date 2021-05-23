@@ -1,0 +1,21 @@
+{
+  "keyboard":"ymp10",
+  "keymap":"default",
+  "layout":"LAYOUT",
+  "layers":[
+    [
+      "KC_ESC",
+      "KC_ENT",
+      "KC_F1",
+      "KC_F2",
+      "LSA(KC_F11)",
+      "LSA(KC_F12)",
+      "KC_LEFT",
+      "KC_DOWN",
+      "KC_UP",
+      "KC_RGHT"
+    ]
+  ],
+  "author":"",
+  "notes":""
+}

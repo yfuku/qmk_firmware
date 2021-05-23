@@ -1,0 +1,15 @@
+{
+    "name": "Claw44",
+    "vendorId": "0x5946",
+    "productId": "0x0005",
+    "lighting": "none",
+    "matrix": { "rows": 3, "cols": 4 },
+    "layouts": {
+        "labels": [],
+        "keymap": [
+          [{"x":2},"0,2","0,3"],
+          ["1,0","1,1","1,2","1,3"],
+          ["2,0","2,1","2,2","2,3"]
+        ]
+    }
+}
