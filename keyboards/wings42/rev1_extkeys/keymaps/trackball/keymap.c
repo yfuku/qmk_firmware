@@ -168,12 +168,17 @@ void matrix_scan_user(void) {
         uint8_t stat;
         int8_t x, y;
         int8_t r_x, r_y;
-        int8_t degree = 45;
 
         read_paw3204(&stat, &x, &y);
 
+        // 45-degree angle
+        int8_t degree = 45;
         r_x =  x * cos(degree) + y * sin(degree);
         r_y = -x * sin(degree) + y * cos(degree);
+        /* normal angle
+        r_x = y;
+        r_y = x;
+        */
 
         if (isScrollMode) {
             if (cnt % 5 == 0) {
