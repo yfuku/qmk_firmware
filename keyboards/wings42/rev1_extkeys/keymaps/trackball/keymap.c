@@ -1,142 +1,105 @@
+/* Copyright 2021 yfuku
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include QMK_KEYBOARD_H
 
 #include "paw3204.h"
 #include "pointing_device.h"
-
 extern keymap_config_t keymap_config;
-
 extern uint8_t is_master;
-
 bool isScrollMode;
 
-enum keymap_layers {
-  _QWERTY,
-  _LOWER,
-  _RAISE,
-  _TB,
+enum layer_number {
+    _QWERTY = 0,
+    _RAISE,
+    _LOWER,
+    _ADJUST,
 };
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  KC_MBTN1,
-  KC_MBTN2,
-  KC_MBTN3,
-  KC_SCRL
+  MBTN1,
+  MBTN2,
+  MBTN3,
+  SCRL
 };
 
-// common
-#define KC_ KC_TRNS
-#define KC_XXXX KC_NO
-#define KC_RST RESET
-#define KC_VD KC__VOLDOWN
-#define KC_VU KC__VOLUP
 
-// layer
+#define KC_G_TAB LGUI_T(KC_TAB)
+#define KC_G_BS LGUI_T(KC_BSPC)
 #define KC_L_SPC LT(_LOWER, KC_SPC)
 #define KC_R_ENT LT(_RAISE, KC_ENT)
-
-// shift_t
-#define KC_S_EN LSFT_T(KC_LANG2)
 #define KC_S_JA LSFT_T(KC_LANG1)
-
-// cmd_t
-#define KC_G_F LCMD_T(KC_F)
-#define KC_G_J RCMD_T(KC_J)
-
-// ctl_t
-#define KC_C_G LCTL_T(KC_G)
-#define KC_C_H RCTL_T(KC_H)
-
-// alt_t
-#define KC_A_D ALT_T(KC_D)
-#define KC_A_K ALT_T(KC_K)
-
-// cmd+shift_t
-#define KC_GS_S SCMD_T(KC_S)
-#define KC_GS_L SCMD_T(KC_L)
-
-//
-#define KC_MISS C(KC_UP)
-
-#define TAPPING_LAYER_TERM 230
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case KC_GS_S:
-      return TAPPING_LAYER_TERM;
-    case KC_GS_L:
-      return TAPPING_LAYER_TERM;
-    case KC_A_D:
-      return TAPPING_LAYER_TERM;
-    case KC_A_K:
-      return TAPPING_LAYER_TERM;
-    default:
-      return TAPPING_TERM;
-  }
-}
+#define KC_S_EN LSFT_T(KC_LANG2)
+#define KC_A_DEL ALT_T(KC_DEL)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [_QWERTY] = LAYOUT(
+    //,--------+--------+---------+--------+---------+--------.                    ,--------+---------+--------+---------+--------+--------.
+       KC_ESC , KC_Q   , KC_W    , KC_E   , KC_R    , KC_T   ,                      KC_Y   , KC_U    , KC_I   , KC_O    , KC_P   , KC_MINS,
+    //|--------+--------+---------+--------+---------+--------|                    |--------+---------+--------+---------+--------+--------|
+      KC_G_TAB, KC_A   , KC_S    , KC_D   , KC_F    , KC_G   ,   MBTN1,   KC_NO,    KC_H   , KC_J    , KC_K   , KC_L    , KC_SCLN, KC_G_BS ,
+    //|--------+--------+---------+--------+---------+--------|                    |--------+---------+--------+---------+--------+--------|
+       KC_LCTL, KC_Z   , KC_X    , KC_C   , KC_V    , KC_B   ,   MBTN2,   KC_NO,    KC_N   , KC_M    , KC_COMM, KC_DOT  , KC_SLSH, KC_RCTL,
+    //`--------+--------+---------+--------+---------+--------/                    \--------+---------+--------+---------+--------+--------'
+                                  KC_A_DEL, KC_S_EN ,KC_L_SPC,                      KC_R_ENT, KC_S_JA , KC_A_DEL
+    //                           `+--------+---------+--------'                    `--------+---------+--------+'
+    ),
 
-  // M_ = LCMD_T(
-  // A_ = ALT_T(
-  // C_ = LCTL_T(
-  // MS_ = SMD_T(
-  // R_ = LT(_RAISE
-  // L_ = LT(_LOWER
+    [_RAISE] = LAYOUT(
+    //,--------+--------+--------+--------+--------+--------.                      ,--------+--------+--------+--------+--------+--------.
+       _______, KC_BSLS, KC_CIRC, KC_EXLM, KC_AMPR, KC_PIPE,                        KC_AT  , KC_EQL , KC_PLUS, KC_ASTR, KC_PERC, KC_MINS,
+    //|--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+--------+--------|
+       KC_LPRN, KC_HASH, KC_DLR , KC_DQT , KC_QUOT, KC_TILD,     _______, _______,  KC_LEFT, KC_DOWN,  KC_UP , KC_RGHT, KC_GRV , KC_RPRN,
+    //|--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+--------+--------|
+       _______, _______, _______, _______, KC_LCBR, KC_LBRC,     _______, _______,  KC_RBRC, KC_RCBR, _______, _______, _______, _______,
+    //`--------+--------+--------+--------+--------+--------/                      \--------+--------+--------+--------+--------+--------'
+                                  _______, _______, _______,                        _______, _______, RESET
+    //                          `+--------+--------+--------'                      `--------+---------+--------+'
+    ),
 
-  [_QWERTY] = LAYOUT_kc( \
-  //,----+----+----+----+----+----.             ,----+----+----+----+----+----.
-      ESC, Q  , W  , E  , R  , T  ,               Y  , U  , I  , O  , P  ,MINS,
-  //|----+----+----+----+----+----|             |----+----+----+----+----+----|
-      TAB, A  ,GS_S,A_D ,G_F ,C_G , MBTN1,  NO,  C_H ,G_J ,A_K ,GS_L,SCLN,ESC ,
-  //|----+----+----+----+----+----+             |----+----+----+----+----+----|
-     LEFT, Z  , X  , C  , V  , B  , MBTN2,  NO,   N  , M  ,COMM,DOT ,SLSH,RGHT,
-  //`----+----+----+----+----+----/             \----+----+----+----+----+----'
-                    SCRL,S_EN,L_SPC,            R_ENT,S_JA,UP
-  //          `----+----+----+----'             `----+----+----+----'
-  ),
+    [_LOWER] = LAYOUT(
+    //,--------+--------+--------+--------+--------+--------.                      ,--------+--------+--------+--------+--------+--------.
+       KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  ,                        _______, KC_EQL , KC_PLUS, KC_ASTR, KC_PERC, KC_MINS,
+    //|--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+--------+--------|
+       _______, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,    _______, _______,   KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , _______,
+    //|--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+--------+--------|
+       KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 ,    _______, _______,   _______, _______, KC_COMM, KC_DOT , KC_SLSH, _______,
+    //`--------+--------+--------+--------+--------+--------/                      \--------+--------+--------+--------+--------+--------'
+                                  RESET  , _______, _______,                        _______, _______, _______
+    //                          `+--------+--------+--------'                      `--------+--------+--------+'
+    ),
 
-  //   \ ! & |      = + * %
-  //   # ` " ' ~  ← ↓ ↑ → $
-  //       { [ (  ) ] } @ ^
-
-  [_RAISE] = LAYOUT_kc( \
-  //,----+----+----+----+----+----.        ,----+----+----+----+----+----.
-         ,BSLS,EXLM,AMPR,PIPE,XXXX,         XXXX,EQL ,PLUS,ASTR,PERC,MINS,
-  //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-         ,HASH,GRV ,DQT ,QUOT,TILD,  ,   ,  LEFT,DOWN, UP ,RGHT,DLR ,    ,
-  //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-         ,    ,    ,LCBR,LBRC,LPRN,  ,   ,  RPRN,RBRC,RCBR,AT  ,CIRC,    ,
-  //`----+----+----+----+----+----/        \----+----+----+----+----+----'
-                        ,    ,BSPC         ,    ,    ,RST
-  //          `----+----+----+----'        `----+----+----+----'
-  ),
-
-  [_LOWER] = LAYOUT_kc( \
-  //,----+----+----+----+----+----.        ,----+----+----+----+----+----.
-         ,    ,    ,    ,    ,XXXX,         XXXX,EQL ,PLUS,ASTR,PERC,MINS,
-  //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-         , 1  , 2  , 3  , 4  , 5  ,  ,   ,   6  , 7  , 8  , 9  , 0  ,    ,
-  //|----+----+----+----+----+----|        |----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,  ,   ,      ,    ,COMM,DOT ,SLSH,    ,
-  //`----+----+----+----+----+----/        \----+----+----+----+----+----'
-                    RST ,    ,    ,        DEL ,    ,
-  //          `----+----+----+----'        `----+----+----+----'
-  ),
-
+    [_ADJUST] = LAYOUT(
+    //,--------+--------+--------+--------+--------+--------.                      ,--------+--------+--------+--------+--------+--------.
+       _______, _______, _______, _______, _______, _______,                        _______, _______, _______, _______, _______, _______,
+    //|--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+--------+--------|
+       _______, _______, _______, _______, _______, _______,    _______, _______,   _______, _______, _______, _______, _______, _______,
+    //|--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+--------+--------|
+       _______, _______, _______, _______, _______, _______,    _______, _______,   _______, _______, _______, _______, _______, _______,
+    //`--------+--------+--------+--------+--------+--------/                      \--------+--------+--------+--------+--------+--------'
+                                  _______, _______, _______,                        _______, _______, _______
+    //                          `+--------+--------+--------'                      `--------+--------+--------+'
+    ),
 };
-
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   report_mouse_t currentReport = {};
 
   switch (keycode) {
-    case KC_MBTN1:
+    case MBTN1:
       currentReport = pointing_device_get_report();
       if (record->event.pressed) {
         currentReport.buttons |= MOUSE_BTN1;
@@ -146,7 +109,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       pointing_device_set_report(currentReport);
       return false;
-    case KC_MBTN2:
+    case MBTN2:
       currentReport = pointing_device_get_report();
       if (record->event.pressed) {
         currentReport.buttons |= MOUSE_BTN2;
@@ -156,7 +119,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       pointing_device_set_report(currentReport);
       return false;
-    case KC_MBTN3:
+    case MBTN3:
       currentReport = pointing_device_get_report();
       if (record->event.pressed) {
         currentReport.buttons |= MOUSE_BTN3;
@@ -166,7 +129,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       pointing_device_set_report(currentReport);
       return false;
-    case KC_SCRL:
+    case SCRL:
       if (record->event.pressed) {
         isScrollMode = true;
         dprint("scroll ON\n");
@@ -182,20 +145,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void matrix_init_user(void) {
     init_paw3204();
-    //setPinInputHigh(D3);
 }
-
-/*
-void keyboard_post_init_user() {
-    debug_enable = true;
-    debug_mouse = true;
-}
-*/
 
 void matrix_scan_user(void) {
     static int  cnt;
     static bool paw_ready;
-    //static int  tb_layer;
 
     report_mouse_t mouse_rep = pointing_device_get_report();
 
@@ -208,22 +162,6 @@ void matrix_scan_user(void) {
             dprintf("paw3204 NG:%d\n", pid);
             paw_ready = false;
         }
-
-        /*
-        if (readPin(D3) == 1) {
-            if (tb_layer == 0) {
-                dprint("tb layer on\n");
-                layer_on(_TB);
-                tb_layer = 1;
-            }
-        } else {
-            if (tb_layer == 1) {
-                layer_off(_TB);
-                dprint("tb layer off\n");
-                tb_layer = 0;
-            }
-        }
-        */
     }
 
     if (paw_ready) {
@@ -267,20 +205,4 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         break;
     }
   return state;
-}
-
-void encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) { /* First encoder */
-        if (clockwise) {
-            tap_code(KC_WH_U);
-        } else {
-            tap_code(KC_WH_D);
-        }
-    } else if (index == 1) { /* Second encoder */
-        if (clockwise) {
-            tap_code(KC_3);
-        } else {
-            tap_code(KC_4);
-        }
-    }
 }
