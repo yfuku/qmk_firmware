@@ -1,0 +1,6 @@
+{"encoder":
+{"enabled":1,
+"definition":[
+{"pin":[7,8],"step":1,"action":[["KC_LEFT","KC_RGHT"], ["KC_C","KC_D"], ["KC_E","KC_F"], ["KC_G","KC_H"], ["KC_I","KC_J"]]},
+{"pin":[9,10],"step":1,"action":[["KC_WH_U","KC_WH_D"], ["KC_C","KC_D"], ["KC_E","KC_F"], ["KC_G","KC_H"], ["KC_I","KC_J"]]}
+]}}

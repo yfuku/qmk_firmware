@@ -1,0 +1,10 @@
+{"keyboard":"owl8",
+"keymap":"",
+"layout":"LAYOUT",
+"layers":
+[["KC_NO","KC_NO","KC_NO","KC_NO",
+"KC_ESC","KC_BSPC","KC_SPC","KC_ENT",
+"KC_LEFT","KC_DOWN","KC_UP","KC_RGHT"],
+
+["KC_M","KC_N","KC_O","KC_P",
+"KC_Q","KC_R","KC_S","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO"]]}
