@@ -2,11 +2,11 @@
 
 ![owl8](imgur.com image replace me!)
 
-*A short description of the keyboard/project*
+macropad
 
-* Keyboard Maintainer: [yfuku](https://github.com/yourusername)
-* Hardware Supported: *The PCBs, controllers supported*
-* Hardware Availability: *Links to where you can find this hardware*
+* Keyboard Maintainer: [yfuku](https://github.com/yfuku)
+* Hardware Supported: owl8 PCB, Pro Micro
+* Hardware Availability: https://yfuku.booth.pm/
 
 Make example for this keyboard (after setting up your build environment):
 
