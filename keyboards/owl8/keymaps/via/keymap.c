@@ -25,24 +25,57 @@ enum layer_names {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT(
-        KC_BRID, KC_BRIU, KC__VOLDOWN, KC__VOLUP,
-        MO(1),   KC_BSPC, KC_SPC,      KC_ENT,
-        KC_LEFT, KC_DOWN, KC_UP,       KC_RGHT
+        KC_NO,   KC_NO,   KC_NO,  KC_NO, // for encoders
+        KC_NO,   KC_NO,   KC_NO,  KC_NO, // for ext keys
+        MO(1),   KC_BSPC, KC_SPC, KC_ENT,
+        KC_LEFT, KC_DOWN, KC_UP,  KC_RGHT
     ),
     [_FN1] = LAYOUT(
-        KC_1, KC_2, KC_3, KC_4,
-        KC_5, KC_6, KC_7, KC_8,
-        KC_9, KC_0, KC_A, KC_B
-    ), 
+        KC_NO,   KC_NO,   KC_NO,  KC_NO,
+        KC_NO,   KC_NO,   KC_NO,  KC_NO,
+        KC_1,    KC_2,    KC_3,   KC_4,
+        KC_5,    KC_6,    KC_7,   KC_8
+    ),
     [_FN2] = LAYOUT(
-        KC_1, KC_2, KC_3, KC_4,
-        KC_5, KC_6, KC_7, KC_8,
-        KC_9, KC_0, KC_A, KC_B
-    ), 
+        KC_NO,   KC_NO,   KC_NO,  KC_NO,
+        KC_NO,   KC_NO,   KC_NO,  KC_NO,
+        KC_1,    KC_2,    KC_3,   KC_4,
+        KC_5,    KC_6,    KC_7,   KC_8
+    ),
     [_FN3] = LAYOUT(
-        KC_1, KC_2, KC_3, KC_4,
-        KC_5, KC_6, KC_7, KC_8,
-        KC_9, KC_0, KC_A, KC_B
+        KC_NO,   KC_NO,   KC_NO,  KC_NO,
+        KC_NO,   KC_NO,   KC_NO,  KC_NO,
+        KC_1,    KC_2,    KC_3,   KC_4,
+        KC_5,    KC_6,    KC_7,   KC_8
     )
 };
 
+void encoder_update_user(uint8_t index, bool clockwise) {
+    keypos_t key;
+
+    if (index == 0) {
+        if (clockwise) {
+            key.row = 0;
+            key.col = 13;
+        } else {
+            key.row = 0;
+            key.col = 12;
+        }
+        uint8_t  layer   = layer_switch_get_layer(key);
+        uint16_t keycode = keymap_key_to_keycode(layer, key);
+
+        tap_code16(keycode);
+    } else if (index == 1) { /* Second encoder */
+        if (clockwise) {
+            key.row = 0;
+            key.col = 15;
+        } else {
+            key.row = 0;
+            key.col = 14;
+        }
+        uint8_t  layer   = layer_switch_get_layer(key);
+        uint16_t keycode = keymap_key_to_keycode(layer, key);
+
+        tap_code16(keycode);
+    }
+}
