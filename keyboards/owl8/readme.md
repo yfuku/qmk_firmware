@@ -1,6 +1,6 @@
 # owl8
 
-![owl8](imgur.com image replace me!)
+![owl8](https://raw.githubusercontent.com/yfuku/owl8/master/images/owl8.jpg)
 
 macropad
 
